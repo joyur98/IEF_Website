@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { NavLink, Route, Routes, Link, useLocation } from 'react-router-dom'
 import { Home, About, Schools, Events, Journal, Projects, Members, Contact } from './pages.jsx'
 import { JoinModal } from './components.jsx'
+import logo from './assets/logo.png'
 
 const links = [
   ['/', 'Home'], ['/about', 'About'], ['/events', 'Events'], ['/schools', 'Schools'],
@@ -43,7 +44,7 @@ export default function App() {
   return (
     <>
       <header className={'nav' + (scrolled ? ' scrolled' : '')}>
-        <Link to="/" className="brand">IEF <span>Kathmandu University</span></Link>
+        <Link to="/" className="brand"><img src={logo} alt="IEF logo" /><span>Interdisciplinary Exchange Forum</span></Link>
         <nav className={menu ? 'open' : ''}>
           {links.map(([to, label]) => <NavLink key={to} to={to} end>{label}</NavLink>)}
         </nav>
