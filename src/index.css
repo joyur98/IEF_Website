@@ -83,3 +83,16 @@ input:focus,textarea:focus,select:focus{outline:2px solid var(--primary);outline
 
 .brand{display:flex;align-items:center;gap:10px}.brand img{height:46px;width:auto;transition:transform .4s}.brand:hover img{transform:rotate(-8deg) scale(1.06)}
 .brand span{font-size:13px;line-height:1.2;margin:0;max-width:150px}
+
+/* ===== Minimal refinements ===== */
+@keyframes drift{50%{transform:translateY(-8px)}}
+.progress{position:fixed;top:0;left:0;height:3px;width:var(--p,0%);background:var(--primary);z-index:30;transition:width .1s}
+.page h1::after{content:'';display:block;height:3px;width:0;margin-top:8px;border-radius:3px;background:var(--primary);transition:width .8s ease .25s}
+.page h1.in::after{width:56px}
+.card{position:relative}
+.card::before{content:'';position:absolute;left:0;top:0;width:100%;height:3px;border-radius:12px 12px 0 0;background:var(--primary);transform:scaleX(0);transform-origin:left;transition:transform .35s ease}
+.card:hover::before{transform:scaleX(1)}
+.about-top{display:grid;grid-template-columns:180px 1fr;gap:28px;align-items:center;margin-bottom:8px}
+.about-logo{width:180px;height:auto;animation:drift 6s ease-in-out infinite}
+.impact{margin-top:24px;padding:20px 24px;border-radius:12px;background:var(--primary);color:#fff;text-align:center;transition:opacity .6s ease var(--d,0ms),transform .6s ease var(--d,0ms)}
+@media(max-width:640px){.about-top{grid-template-columns:1fr;text-align:center}.about-logo{width:120px;margin:0 auto}}

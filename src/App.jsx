@@ -8,7 +8,7 @@ const links = [
   ['/', 'Home'], ['/about', 'About'], ['/events', 'Events'], ['/schools', 'Schools'],
   ['/journal', 'Journal'], ['/projects', 'Projects'], ['/members', 'Members'], ['/contact', 'Contact'],
 ]
-const REVEAL = '.card, .timeline li, .stat, .board-title, .page h1, .page .lead, .tabs'
+const REVEAL = '.impact, .card, .timeline li, .stat, .board-title, .page h1, .page .lead, .tabs'
 
 export default function App() {
   const { pathname } = useLocation()
@@ -19,7 +19,11 @@ export default function App() {
   useEffect(() => { window.scrollTo(0, 0); setMenu(false) }, [pathname])
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 10)
+    const onScroll = () => {
+      setScrolled(window.scrollY > 10)
+      const max = document.documentElement.scrollHeight - window.innerHeight
+      document.documentElement.style.setProperty('--p', (max > 0 ? (window.scrollY / max) * 100 : 0) + '%')
+    }
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
@@ -43,6 +47,7 @@ export default function App() {
 
   return (
     <>
+      <div className="progress" />
       <header className={'nav' + (scrolled ? ' scrolled' : '')}>
         <Link to="/" className="brand"><img src={logo} alt="IEF logo" /><span>Interdisciplinary Exchange Forum</span></Link>
         <nav className={menu ? 'open' : ''}>

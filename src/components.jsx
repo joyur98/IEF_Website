@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from 'react'
 
 /* ---------- Event data (edit dates and text here) ---------- */
 export const events = [
-  { title: 'Institutional MoUs and Course Development', start: '2026-11-01', end: '2026-12-31', label: 'Nov–Dec 2026', text: 'Formalisation of institutional agreements and development of the interdisciplinary course.' },
+  { title: 'Institutional MoUs and Course Development', start: '2026-11-01', end: '2026-12-31', label: 'Nov–Dec 2026', text: 'Institutional agreements and development of the interdisciplinary cancer research course.' },
   { title: 'International Winter School on Interdisciplinary Research', start: '2027-01-01', end: '2027-02-28', label: 'Jan–Feb 2027', text: '2027 theme: Cancer. Two weeks delivered by the UNESCO Chair in Teacher Education and IPN-LSDTC.' },
-  { title: 'Research by Seven or More Teams', start: '2027-02-01', end: '2027-05-31', label: 'Feb–May 2027', text: 'Interdisciplinary research conducted by teams drawn from multiple schools.' },
-  { title: 'Compendium and Documentary Production', start: '2027-06-01', end: '2027-07-31', label: 'Jun–Jul 2027', text: 'Compilation of research outputs and production of a documentary.' },
-  { title: 'National Policy Dialogue', start: '2027-08-01', end: '2027-08-31', label: 'Aug 2027', text: 'A national forum on policy implications of the forum’s research.' },
+  { title: 'Research by Seven or More Teams', start: '2027-02-01', end: '2027-05-31', label: 'Feb–May 2027', text: 'Participants conduct interdisciplinary cancer research for three to four months, applying skills from the winter school.' },
+  { title: 'Compendium and Documentary Production', start: '2027-06-01', end: '2027-07-31', label: 'Jun–Jul 2027', text: 'Publication of a compendium of research outcomes, followed by a documentary on the findings.' },
+  { title: 'National Policy Dialogue', start: '2027-08-01', end: '2027-08-31', label: 'Aug 2027', text: 'Dialogue with the National Planning Commission, Members of Parliament and Ministers; release of the compendium and documentary.' },
 ]
 const schools = ['School of Engineering (SoE)', 'School of Law (SoL)', 'School of Management (SoM)', 'School of Science (SoS)', 'School of Arts (SoA)', 'School of Education (SoEd)', 'School of Medical Sciences (SMS)']
 
