@@ -1,122 +1,71 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useEffect, useState } from 'react'
+import { NavLink, Route, Routes, Link, useLocation } from 'react-router-dom'
+import { Home, About, Schools, Events, Journal, Projects, Members, Contact } from './pages.jsx'
+import { JoinModal } from './components.jsx'
 
-function App() {
-  const [count, setCount] = useState(0)
+const links = [
+  ['/', 'Home'], ['/about', 'About'], ['/events', 'Events'], ['/schools', 'Schools'],
+  ['/journal', 'Journal'], ['/projects', 'Projects'], ['/members', 'Members'], ['/contact', 'Contact'],
+]
+const REVEAL = '.card, .timeline li, .stat, .board-title, .page h1, .page .lead, .tabs'
+
+export default function App() {
+  const { pathname } = useLocation()
+  const [join, setJoin] = useState(false)
+  const [menu, setMenu] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => { window.scrollTo(0, 0); setMenu(false) }, [pathname])
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10)
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  // Scroll-reveal for any matching element, including those rendered later
+  useEffect(() => {
+    const io = new IntersectionObserver((es) => es.forEach((e) => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target) }
+    }), { threshold: 0.12 })
+    const mark = () => document.querySelectorAll(REVEAL).forEach((el) => {
+      if (el.classList.contains('reveal')) return
+      const i = Array.prototype.indexOf.call(el.parentNode.children, el)
+      el.style.setProperty('--d', Math.min(i, 6) * 70 + 'ms')
+      el.classList.add('reveal'); io.observe(el)
+    })
+    mark()
+    const mo = new MutationObserver(mark)
+    mo.observe(document.getElementById('root'), { childList: true, subtree: true })
+    return () => { io.disconnect(); mo.disconnect() }
+  }, [])
 
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+      <header className={'nav' + (scrolled ? ' scrolled' : '')}>
+        <Link to="/" className="brand">IEF <span>Kathmandu University</span></Link>
+        <nav className={menu ? 'open' : ''}>
+          {links.map(([to, label]) => <NavLink key={to} to={to} end>{label}</NavLink>)}
+        </nav>
+        <button className="btn join" onClick={() => setJoin(true)}>Join IEF</button>
+        <button className="burger" onClick={() => setMenu(!menu)} aria-label="Menu">☰</button>
+      </header>
+      <main>
+        <div className="route" key={pathname}>
+          <Routes>
+            <Route path="/" element={<Home onJoin={() => setJoin(true)} />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/events" element={<Events />} />
+            <Route path="/schools" element={<Schools />} />
+            <Route path="/journal" element={<Journal />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/members" element={<Members />} />
+            <Route path="/contact" element={<Contact />} />
+          </Routes>
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
+      </main>
+      <footer>© 2026 Interdisciplinary Exchange Forum, Kathmandu University</footer>
+      <JoinModal open={join} onClose={() => setJoin(false)} />
     </>
   )
 }
-
-export default App
